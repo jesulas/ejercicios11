@@ -11,10 +11,18 @@ showImagenes(array[i])
 }
 }
 
-const showImagenes = (texto: Array<string>) => {
+const showImagenes = (texto: string[]) => {
 const imagen = document.createElement("img");
 imagen.src = texto[1];
-areaImagenes?.appendChild(imagen)
+if (areaImagenes != null && areaImagenes != undefined && areaImagenes instanceof HTMLDivElement){
+areaImagenes.appendChild(imagen)
+}
 }
 
-document.getElementById("imagenesBoton")?.addEventListener("click", searchImagenes)
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM fully loaded and parsed");
+    let imagenesBoton = document.getElementById("imagenesBoton")
+    if (imagenesBoton != null && imagenesBoton != undefined && imagenesBoton instanceof HTMLButtonElement){
+    imagenesBoton.addEventListener("click", searchImagenes)
+    }
+})
