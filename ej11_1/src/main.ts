@@ -1,7 +1,9 @@
 import { isValidIBAN, extractIBAN} from "ibantools"
-import { enseñarDatos } from "./creacionHTML"
-const regex1 = /^ES\d{2}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{2}[-\s]?\d{10}$/
+import { dividirDatos} from "./creacionHTML"
+
 const listado = document.getElementById("resultado")
+
+//regex1.exec
 
 const cheque = (evento: Event) => {
     // Borramos el resultado anterior, sea este correcto o incorrecto
@@ -15,28 +17,29 @@ if (anterior != null && anterior != undefined){
 }
 evento.preventDefault();
 let text = obtenerValorCampo("search")
-let equal = text.match(regex1)
-if(equal != null){
+
     
     if (isValidIBAN(text)){
         console.log(isValidIBAN(text));
         console.log("IBAN Correcto")
         let info = extractIBAN(text)
         console.log(info)
-        enseñarDatos(info, text)
+        dividirDatos(text)
+        
     }
-
-} 
-else {
+    else {
     let fail = document.createElement("h4")
     fail.innerHTML="IBAN In-correcto"
     fail.id="deleteme"
     if (listado != null && listado != undefined && listado instanceof HTMLDivElement){
         listado.appendChild(fail)
     }
-    console.log(equal)
+    console.log
 }
-}
+} 
+//hacer que aparezca un error si el iban no es valido
+
+
 
 const obtenerValorCampo = (nombre: string): string => {
 const elementoCampo = document.getElementById(nombre);

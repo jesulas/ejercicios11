@@ -1,4 +1,5 @@
-import { ExtractIBANResult } from "ibantools";
+
+const regex1 = /^ES\d{2}[-\s]?(?<entidadbancaria>\d{4})[-\s]?(?<numeroOficina>\d{4})[-\s]?(?<digitocontrol>\d{2})[-\s]?(?<numerocuenta>\d{10})$/
 const listado = document.getElementById("resultado")
 
 const bancosArray = [
@@ -82,7 +83,57 @@ const bancosArray = [
 "2103 Unicaja Banco"
 ]
 
+export const dividirDatos = (dato: string) => {
 
+const coincidencia = regex1.exec(dato);
+
+if ( coincidencia){
+
+    const {entidadbancaria, numeroOficina, digitocontrol, numerocuenta} = coincidencia.groups as any;
+
+     let contenedor = document.createElement("div");
+    contenedor.classList.add("contenedor");
+    contenedor.id ="response"
+    if(listado != null && listado != undefined && listado instanceof HTMLDivElement){
+    listado.appendChild(contenedor)
+    }
+    if (entidadbancaria != null && entidadbancaria != undefined){
+    let nombre = buscarBanco(entidadbancaria)
+    if (nombre != null && nombre != undefined){
+    let nombreFile = crearDato("Numero de banco: " + nombre)
+    if (nombreFile != null && nombreFile != undefined && nombreFile instanceof HTMLHeadingElement){
+    contenedor.appendChild(nombreFile)
+    }
+    }
+    }
+    let branch = numeroOficina
+    if (branch != null && branch != undefined){
+    let branchID = crearDato("Codigo de secuersal: " + branch)
+    if (branchID != null && branchID != undefined && branchID instanceof HTMLHeadingElement){
+    contenedor.appendChild(branchID)
+    }
+    }
+    let digito = digitocontrol
+    if (digito != null && digito != undefined){
+    let digitoID = crearDato("Digito de control: " + digito)
+    if (digitoID != null && digitoID != undefined && digitoID instanceof HTMLHeadingElement){
+    contenedor.appendChild(digitoID)
+    }
+    }
+   let cuenta = numerocuenta
+    if (cuenta != null && cuenta != undefined){
+    let cuentaID = crearDato("Numero de cuenta: " + cuenta)
+    if (cuentaID != null && cuentaID != undefined && cuentaID instanceof HTMLHeadingElement){
+    contenedor.appendChild(cuentaID)
+    }
+    }
+
+} else {
+    console.log("Error en la division.")
+}
+
+}
+/*
 export const enseñarDatos = (info: ExtractIBANResult, completo: string) => {
     
     let contenedor = document.createElement("div");
@@ -122,6 +173,7 @@ export const enseñarDatos = (info: ExtractIBANResult, completo: string) => {
     }
     }
 }
+*/
 
 const buscarBanco = (numero: string)=> {
 for (let i = 0; i < bancosArray.length; i++) {
